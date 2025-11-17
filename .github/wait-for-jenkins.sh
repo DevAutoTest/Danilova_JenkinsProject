@@ -15,4 +15,4 @@ while ! curl -sSL 'http://localhost:8080/login?from=%2F' 2>&1 \
     fi
 done
 
-echo 'The Jenkins is up'
+echo 'The Jenkins is up' 
