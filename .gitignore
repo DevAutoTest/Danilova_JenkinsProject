@@ -42,3 +42,8 @@ build/
 
 ### project ###
 .properties
+
+# Jenkins backup artifacts
+jenkins_backup/
+jenkins_backup.tar
+jenkins_backup.tar.gz
