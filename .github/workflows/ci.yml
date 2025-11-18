@@ -37,10 +37,15 @@ jobs:
           chmod -R 777 ./jenkins_backup/jenkins_home
 
       - name: Docker start
-        run: docker run --rm --detach -p 8080:8080 -v ${{ github.workspace }}/jenkins_backup/var/jenkins_home:/var/jenkins_home jenkins/jenkins:2.516.3-lts-jdk21
+        run: docker run --rm --detach -p 8080:8080 -v ${{ github.workspace }}/jenkins_backup/jenkins_home:/var/jenkins_home jenkins/jenkins:2.516.3-lts-jdk21
 
       - name: Make wait script executable
         run: chmod +x .github/wait-for-jenkins.sh
+      
+      - name: Show jenkins_home path
+        run: |
+            echo "Workspace:"
+            ls -R ${{ github.workspace }}/jenkins_backup
       
       - name: Wait for the Jenkins
         run: ./.github/wait-for-jenkins.sh
