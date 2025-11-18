@@ -34,7 +34,7 @@ jobs:
       - name: Extract Jenkins data and set permission
         run: |
           tar -xvf ./jenkins_backup.tar.gz
-          chmod -R 777 ./jenkins_backup/var/jenkins_home
+          chmod -R 777 ./jenkins_backup/jenkins_home
 
       - name: Docker start
         run: docker run --rm --detach -p 8080:8080 -v ${{ github.workspace }}/jenkins_backup/var/jenkins_home:/var/jenkins_home jenkins/jenkins:2.516.3-lts-jdk21
