@@ -61,7 +61,7 @@ public class HeaderComponentPOM {
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", accountButton);
 
-        new Actions(driver).moveToElement(accountButton).click().perform();
+       accountButton.click();
 
         wait.until(ExpectedConditions.urlContains("/user/"));
         return new StatusComponentUserPage(driver);
