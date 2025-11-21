@@ -3,6 +3,7 @@ package danilova.page;
 import danilova.page.All.SearchModalPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -16,7 +17,7 @@ public class HeaderComponentPOM {
     private final By jenkinsIcon = By.className("app-jenkins-logo");
     private final By search = By.id("root-action-ManageJenkinsAction");
     private final By manageJenkins = By.id("root-action-ManageJenkinsAction");
-    private final By userDropDownMenu = By.xpath("//a[@id='root-action-UserAction']");
+    private final By dropDownMenuAccount = By.xpath("//a[@id='root-action-UserAction']");
 
     public HeaderComponentPOM(WebDriver driver) {
         this.driver = driver;
@@ -39,8 +40,15 @@ public class HeaderComponentPOM {
         return new ManageJenkinsPage(driver);
     }
 
-    public UserSettingsPagePOM clickUserHeaderMenu() {
-        wait.until(ExpectedConditions.elementToBeClickable(userDropDownMenu)).click();
-        return new UserSettingsPagePOM(driver);
+//    public UserSettingsPagePOM clickUserHeaderMenu() {
+//        wait.until(ExpectedConditions.elementToBeClickable(userDropDownMenu)).click();
+//        return new UserSettingsPagePOM(driver);
+//    }
+
+    public DropDownAccountMenuComponent hoverOverAccountIcon()  {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(dropDownMenuAccount)).perform();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//select[@id='account-theme-picker']")));
+        return new DropDownAccountMenuComponent(driver);
     }
 }

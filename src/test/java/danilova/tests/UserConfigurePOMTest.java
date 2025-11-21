@@ -13,53 +13,53 @@ public class UserConfigurePOMTest extends BaseTest {
     @Test
     void getFullName() {
         String actualName = new HeaderComponentPOM(getDriver())
-                .clickUserHeaderMenu()
-                .clickAccount()
+                .hoverOverAccountIcon()
+                .clickDropDownMenuAccount()
                 .getFullName();
 
         Assert.assertEquals(actualName, oldName);
     }
 
     @Test(dependsOnMethods = "getFullName")
-    void renameFullName() {
+    void renameFullName()  {
         String expectedName = new HeaderComponentPOM(getDriver())
-                .clickUserHeaderMenu()
-                .clickAccount()
+                .hoverOverAccountIcon()
+                .clickDropDownMenuAccount()
                 .clearFullName()
                 .sendFullName(newName)
                 .clickApply()
                 .getFullName();
 
         String actualName = new HeaderComponentPOM(getDriver())
-                .clickUserHeaderMenu()
-                .clickAccount()
+                .hoverOverAccountIcon()
+                .clickDropDownMenuAccount()
                 .getFullName();
         Assert.assertEquals(actualName, expectedName);
     }
 
     @Test(dependsOnMethods = "renameFullName")
-    void getStatusFullName() {
+    void getStatusFullName()  {
         String actualName = new HeaderComponentPOM(getDriver())
-                .clickUserHeaderMenu()
-                .clickStatus()
+                .hoverOverAccountIcon()
+                .clickDropDownMenuStatus(newName)
                 .getFullUserName();
 
         Assert.assertEquals(actualName, newName);
     }
 
     @Test(dependsOnMethods = "getStatusFullName")
-    void renameByDefaultAdminName() {
+    void renameByDefaultAdminName()  {
         String expectedName = new HeaderComponentPOM(getDriver())
-                .clickUserHeaderMenu()
-                .clickAccount()
+                .hoverOverAccountIcon()
+                .clickDropDownMenuAccount()
                 .clearFullName()
                 .sendFullName(oldName)
                 .clickApply()
                 .getFullName();
 
         String actualName = new HeaderComponentPOM(getDriver())
-                .clickUserHeaderMenu()
-                .clickAccount()
+                .hoverOverAccountIcon()
+                .clickDropDownMenuAccount()
                 .getFullName();
         Assert.assertEquals(actualName, expectedName);
     }
