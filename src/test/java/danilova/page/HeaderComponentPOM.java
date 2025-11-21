@@ -59,10 +59,8 @@ public class HeaderComponentPOM {
     public StatusComponentUserPage clickAccountIcon() {
         WebElement accountButton = wait.until(ExpectedConditions.elementToBeClickable(dropDownMenuAccount));
 
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", accountButton);
-
-       accountButton.click();
-
+        String href = accountButton.getAttribute("href");
+        driver.get(href);
         wait.until(ExpectedConditions.urlContains("/user/"));
         return new StatusComponentUserPage(driver);
     }
