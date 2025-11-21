@@ -72,7 +72,7 @@ public class HeaderComponentPOM {
 
 //        TestUtils.clickJS(getDriver(), By.id("root-action-UserAction"));
 
-    wait.until(ExpectedConditions.urlContains("/user/")); //for debug
+  //  wait.until(ExpectedConditions.urlContains("/user/")); //for debug
         return new StatusComponentUserPage(driver);
     }
 }
