@@ -11,6 +11,18 @@ public class UserConfigurePOMTest extends BaseTest {
     final String newName = "New full name";
 
     @Test
+    public void testAccessUserAccountFromHome() {
+        final String expUserName = "admin";
+
+        String actUserName = new HeaderComponentPOM(getDriver())
+                .clickOverAccountIcon()
+                .getFullUserName();
+
+        Assert.assertEquals(actUserName, expUserName);
+    }
+
+
+    @Test
     void getFullName() {
         String actualName = new HeaderComponentPOM(getDriver())
                 .hoverOverAccountIcon()
