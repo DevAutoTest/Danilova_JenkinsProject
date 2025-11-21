@@ -1,4 +1,4 @@
-package danilova.page;
+package danilova.page.All;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;

@@ -1,6 +1,7 @@
 package danilova.common;
 
 import danilova.common.order.OrderUtils;
+import io.qameta.allure.testng.AllureTestNg;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
@@ -11,6 +12,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@Listeners({AllureTestNg.class})
 public abstract class BaseTest {
 
     private WebDriver driver;
@@ -19,7 +21,7 @@ public abstract class BaseTest {
     private WebDriverWait wait5;
     private WebDriverWait wait10;
 
-   private OrderUtils.MethodsOrder<Method> methodsOrder;
+    private OrderUtils.MethodsOrder<Method> methodsOrder;
 
     private void startDriver() {
         ProjectUtils.log("Browser open");
@@ -91,6 +93,13 @@ public abstract class BaseTest {
 
     @AfterMethod
     protected void afterMethod(Method method, ITestResult testResult) {
+        if (!testResult.isSuccess() && getDriver() != null) {
+            ProjectUtils.takeScreenshot(
+                    getDriver(),
+                    this.getClass().getSimpleName(),
+                    method.getName()
+            );
+        }
         if (methodsOrder.isGroupFinished(method) && (ProjectUtils.isRunCI() || testResult.isSuccess() || ProjectUtils.closeIfError())) {
             stopDriver();
         }

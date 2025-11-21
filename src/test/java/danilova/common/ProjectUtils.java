@@ -1,5 +1,7 @@
 package danilova.common;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -88,18 +90,30 @@ public final class ProjectUtils {
         return Boolean.TRUE.toString().equals(getValue(PREFIX_BROWSER_PROP + "closeIfError"));
     }
 
+    @Attachment(value = "Screenshot", type = "image/png")
     static void takeScreenshot(WebDriver driver, String className, String methodName) {
+        byte[] bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+
         File screenshotDir = new File("screenshots");
         if (!screenshotDir.exists() && !screenshotDir.mkdirs()) {
             throw new RuntimeException("Failed to create a folder for screenshots");
         }
-
-        try (FileOutputStream fileOutputStream = new FileOutputStream(new File(screenshotDir, "%s.%s.png".formatted(className, methodName)))) {
-            fileOutputStream.write(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
+        try (FileOutputStream fos = new FileOutputStream(
+                new File(screenshotDir, "%s.%s.png".formatted(className, methodName)))) {
+            fos.write(bytes);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+       // attachment в Allure имя вложения динамически подставляется class/method
+        Allure.addAttachment(
+                "Screenshot: " + className + "." + methodName,
+                "image/png",
+                new java.io.ByteArrayInputStream(bytes),
+                ".png"
+        );
     }
+
 
     public static String getUserName() {
         return getValue(PREFIX_JENKINS_PROP + "username");

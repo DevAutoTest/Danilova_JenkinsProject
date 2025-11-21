@@ -1,5 +1,6 @@
 package danilova.page;
 
+import danilova.models.UserData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,14 +36,12 @@ public class CreateUserPage extends BasePage {
         return this;
     }
 
-    public CreateUserPage sendConfirmPassword(String password) {
+    public void sendConfirmPassword(String password) {
         getDriver().findElement(By.name("password2")).sendKeys(password);
-        return this;
     }
 
-    public CreateUserPage sendEmail(String email) {
+    public void sendEmail(String email) {
         getDriver().findElement(By.name("email")).sendKeys(email);
-        return this;
     }
 
     public CreateUserPage sendEmail(CharSequence email) {
@@ -56,13 +55,11 @@ public class CreateUserPage extends BasePage {
 
     public ManageUsersPage clickCreateUserButton() {
         clickSubmitButton();
-
         return new ManageUsersPage(getDriver());
     }
 
     public CreateUserPage clickCreateUserButtonNegative() {
         clickSubmitButton();
-
         return this;
     }
 
@@ -81,5 +78,12 @@ public class CreateUserPage extends BasePage {
                 .stream()
                 .map(WebElement::getText)
                 .toList();
+    }
+
+public void fillForm(UserData user){
+        sendUserName(user.getUserName());
+        sendPassword(user.getPassword());
+        sendConfirmPassword(user.getConfirmPassword());
+        sendEmail(user.getEmail());
     }
 }
