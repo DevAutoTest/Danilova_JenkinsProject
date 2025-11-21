@@ -18,7 +18,7 @@ public class UserSettingsPagePOM extends BasePage {
     }
 
     public AccountComponentUserPage clickAccount() {
-        getWait5().until(ExpectedConditions
+        getWait10().until(ExpectedConditions
                 .elementToBeClickable(By.xpath("(//a[@class='task-link task-link-no-confirm '])[3]"))).click();
         return new AccountComponentUserPage(getDriver());
     }
