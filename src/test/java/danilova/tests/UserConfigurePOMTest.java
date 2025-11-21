@@ -46,4 +46,22 @@ public class UserConfigurePOMTest extends BaseTest {
 
         Assert.assertEquals(actualName, newName);
     }
+
+    @Test(dependsOnMethods = "getStatusFullName")
+    void renameByDefaultAdminName() {
+        String expectedName = new HeaderComponentPOM(getDriver())
+                .clickUserHeaderMenu()
+                .clickAccount()
+                .clearFullName()
+                .sendFullName(oldName)
+                .clickApply()
+                .getFullName();
+
+        String actualName = new HeaderComponentPOM(getDriver())
+                .clickUserHeaderMenu()
+                .clickAccount()
+                .getFullName();
+        Assert.assertEquals(actualName, expectedName);
+    }
+
 }
