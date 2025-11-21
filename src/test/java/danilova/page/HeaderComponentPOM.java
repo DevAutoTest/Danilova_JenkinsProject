@@ -48,18 +48,28 @@ public class HeaderComponentPOM {
 //        return new UserSettingsPagePOM(driver);
 //    }
 
-    public DropDownAccountMenuComponent hoverOverAccountIcon()  {
+    public DropDownAccountMenuComponent hoverOverAccountIcon() {
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(dropDownMenuAccount)).perform();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//select[@id='account-theme-picker']")));
         return new DropDownAccountMenuComponent(driver);
     }
 
-    public StatusComponentUserPage clickOverAccountIcon()  {
+    public StatusComponentUserPage clickOverAccountIcon() {
         WebElement accountButton = wait.until(ExpectedConditions.elementToBeClickable(dropDownMenuAccount));
         accountButton.click();
+
+        for (int i = 0; i < 3; i++) {
+            try {
+                wait.until(ExpectedConditions.urlContains("/user/"));
+                return new StatusComponentUserPage(driver);
+            } catch (org.openqa.selenium.TimeoutException e) {
+
+            }
+        }
         wait.until(ExpectedConditions.urlContains("/user/"));
         return new StatusComponentUserPage(driver);
+
     }
 
 //    public StatusComponentUserPage clickOverAccountIcon()  {
