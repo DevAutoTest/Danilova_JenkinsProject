@@ -62,7 +62,8 @@ public class HeaderComponentPOM {
 
     public StatusComponentUserPage clickOverAccountIcon()  {
     WebElement accountButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("root-action-UserAction")));
-        new Actions(driver).moveToElement(accountButton, 0, 0).click().perform();
+   //     new Actions(driver).moveToElement(accountButton, 2, 0).click().perform();
+        driver.findElement(dropDownMenuAccount).click();
 
 //        new Actions(getDriver())
 //                .moveToElement(getWait5().until(ExpectedConditions.elementToBeClickable(By.id("root-action-UserAction"))))
