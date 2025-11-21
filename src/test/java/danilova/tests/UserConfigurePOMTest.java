@@ -16,7 +16,7 @@ public class UserConfigurePOMTest extends BaseTest {
 
         String actUserName = new HeaderComponentPOM(getDriver())
                 .clickOverAccountIcon()
-                .getFullUserName();
+                .getUserNameInBreadcrumbs(oldName);
 
         Assert.assertEquals(actUserName, expUserName);
     }
