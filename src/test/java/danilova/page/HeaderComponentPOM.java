@@ -2,6 +2,7 @@ package danilova.page;
 
 import danilova.page.All.SearchModalPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -55,21 +56,10 @@ public class HeaderComponentPOM {
         return new DropDownAccountMenuComponent(driver);
     }
 
-    public StatusComponentUserPage clickOverAccountIcon() {
+    public StatusComponentUserPage clickAccountIcon() {
         WebElement accountButton = wait.until(ExpectedConditions.elementToBeClickable(dropDownMenuAccount));
-        accountButton.click();
-
-        for (int i = 0; i < 3; i++) {
-            try {
-                wait.until(ExpectedConditions.urlContains("/user/"));
-                return new StatusComponentUserPage(driver);
-            } catch (org.openqa.selenium.TimeoutException e) {
-
-            }
-        }
-        wait.until(ExpectedConditions.urlContains("/user/"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", accountButton);
         return new StatusComponentUserPage(driver);
-
     }
 
 //    public StatusComponentUserPage clickOverAccountIcon()  {
