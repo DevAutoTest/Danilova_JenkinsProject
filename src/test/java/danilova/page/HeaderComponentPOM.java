@@ -1,8 +1,8 @@
 package danilova.page;
 
+import danilova.common.ProjectUtils;
 import danilova.page.All.SearchModalPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -10,8 +10,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-
-import static java.sql.DriverManager.getDriver;
 
 public class HeaderComponentPOM {
 
@@ -21,7 +19,7 @@ public class HeaderComponentPOM {
     private final By jenkinsIcon = By.className("app-jenkins-logo");
     private final By search = By.id("root-action-ManageJenkinsAction");
     private final By manageJenkins = By.id("root-action-ManageJenkinsAction");
-    private final By dropDownMenuAccount = By.xpath("//a[@id='root-action-UserAction']");
+    private final By dropDownMenuAccountIcon = By.xpath("//a[@id='root-action-UserAction']");
 
     public HeaderComponentPOM(WebDriver driver) {
         this.driver = driver;
@@ -51,17 +49,25 @@ public class HeaderComponentPOM {
 
     public DropDownAccountMenuComponent hoverOverAccountIcon() {
         Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(dropDownMenuAccount)).perform();
+        actions.moveToElement(driver.findElement(dropDownMenuAccountIcon)).perform();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//select[@id='account-theme-picker']")));
         return new DropDownAccountMenuComponent(driver);
     }
 
-    public StatusComponentUserPage clickAccountIcon() {
-        WebElement accountButton = wait.until(ExpectedConditions.elementToBeClickable(dropDownMenuAccount));
+    public StatusComponentUserPage clickAccountIcon(WebDriver driver, String className, String methodName) {
+//        WebElement accountButton = wait.until(ExpectedConditions.elementToBeClickable(dropDownMenuAccount));
+//
+//        String href = accountButton.getAttribute("href");
+//        driver.get(href);
+//        wait.until(ExpectedConditions.urlContains("/user/"));
+//        return new StatusComponentUserPage(driver);
+        By dropdown = By.xpath("//select[@id='account-theme-picker']");
+        WebElement icon = wait.until(ExpectedConditions.elementToBeClickable(dropDownMenuAccountIcon));
 
-        String href = accountButton.getAttribute("href");
-        driver.get(href);
-        wait.until(ExpectedConditions.urlContains("/user/"));
+        new Actions(driver).moveToElement(icon).pause(Duration.ofMillis(300)).perform();
+
+        ProjectUtils.takeScreenshot(driver, className, methodName);
+        new Actions(driver).moveToElement(icon).pause(Duration.ofMillis(300)).click().perform();
         return new StatusComponentUserPage(driver);
     }
 

@@ -91,7 +91,7 @@ public final class ProjectUtils {
     }
 
     @Attachment(value = "Screenshot", type = "image/png")
-    static void takeScreenshot(WebDriver driver, String className, String methodName) {
+    public static void takeScreenshot(WebDriver driver, String className, String methodName) {
         byte[] bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 
         File screenshotDir = new File("screenshots");
