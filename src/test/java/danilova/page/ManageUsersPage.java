@@ -28,7 +28,7 @@ public class ManageUsersPage extends BasePage {
 
     @Step("[ManageUsersPage] Get <String> list of users")
     public List<String> getListUsers() {
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(listOfUsers));
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(listOfUsers));
         return getDriver().findElements(listOfUsers)
                 .stream()
                 .map(WebElement::getText)
@@ -37,7 +37,7 @@ public class ManageUsersPage extends BasePage {
 
     @Step("[ManageUsersPage] Get <WebElement> list of users")
     public List<WebElement> getLisWebElementsUsers() {
-        getWait2().until(ExpectedConditions.presenceOfElementLocated(listOfUsers));
+        getWait10().until(ExpectedConditions.presenceOfElementLocated(listOfUsers));
         return getDriver().findElements(listOfUsers)
                 .stream()
                 .toList();
@@ -48,7 +48,7 @@ public class ManageUsersPage extends BasePage {
         List<String> listUsers = getListUsers();
         for (String user : listUsers) {
             if (user.toLowerCase().contains(userName.toLowerCase())) {
-                getWait2().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@data-url='user/%s/doDelete']", user.toLowerCase()))));
+                getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath(String.format("//a[@data-url='user/%s/doDelete']", user.toLowerCase()))));
                 getDriver().findElement(By.xpath(String.format("//a[@data-url='user/%s/doDelete']", user.toLowerCase()))).click();
                 getDriver().findElement(yesDeleteDialogButton).click();
             }
