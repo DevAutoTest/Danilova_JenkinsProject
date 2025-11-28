@@ -1,9 +1,10 @@
 name: CI
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
-      - workflow_dispatch:
+      - main
 
 jobs:
   run-test:
