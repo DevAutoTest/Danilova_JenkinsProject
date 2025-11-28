@@ -58,9 +58,8 @@ jobs:
           JENKINS_HOST: localhost
           JENKINS_PORT: 8080
           BROWSER_NAME: chrome
-          BROWSER_OPTIONS_CHROME: --remote-allow-origins=*;--disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless=new;--window-size=1920,1080
+          BROWSER_OPTIONS_CHROME: --remote-allow-origins=*;--disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless=new;--disable-notifications;--disable-features=PasswordManagerOnboarding,PasswordManagerOffboarding);--disable-save-password-bubble;--disable-popup-blocking;--no-default-browser-check;--window-size=1920,1080
           RUN_CI: true
-
 
       - name: Copy history from gh-pages
         uses: actions/checkout@v4

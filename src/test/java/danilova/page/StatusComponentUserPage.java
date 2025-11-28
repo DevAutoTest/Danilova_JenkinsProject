@@ -1,6 +1,7 @@
 package danilova.page;
 
 import danilova.common.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,14 +13,8 @@ public class StatusComponentUserPage extends BasePage {
         super(driver);
     }
 
+    @Step("[StatusPage] Get full user name")
     public String getFullUserName() {
         return find(By.xpath("//div//h1")).getText();
-    }
-
-    public String getUserNameInBreadcrumbs(String userName) {
-
-                WebElement userNameText = getWait10().until(ExpectedConditions.visibilityOfElementLocated(By
-                        .xpath("//a[@href='/user/%s/']".formatted(userName))));
-                return userNameText.getText();
     }
 }

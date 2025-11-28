@@ -2,12 +2,14 @@ package danilova.common;
 
 import danilova.page.*;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
 public abstract class BasePage extends BaseModel {
-    HeaderComponentPOM header;
+    HeaderComponentsPOM header;
 
     public BasePage(WebDriver driver) {
         super(driver);
-        header = new HeaderComponentPOM(driver);
+        header = new HeaderComponentsPOM(driver);
+        PageFactory.initElements(driver, this);
     }
 }

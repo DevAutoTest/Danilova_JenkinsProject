@@ -1,7 +1,7 @@
 package danilova.tests;
 
 import danilova.common.BaseTest;
-import danilova.page.HeaderComponentPOM;
+import danilova.page.HeaderComponentsPOM;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,20 +11,8 @@ public class UserConfigurePOMTest extends BaseTest {
     final String newName = "New full name";
 
     @Test
-    public void testAccessUserAccountFromHome() {
-        final String expUserName = "admin";
-
-        String actUserName = new HeaderComponentPOM(getDriver())
-                .clickAccountIcon(getDriver(), this.getClass().getSimpleName(), "getFullName")
-                .getUserNameInBreadcrumbs(oldName);
-
-        Assert.assertEquals(actUserName, expUserName);
-    }
-
-
-    @Test
-    void getFullName() {
-        String actualName = new HeaderComponentPOM(getDriver())
+    void getFullNameAccountPageTest() {
+        String actualName = new HeaderComponentsPOM(getDriver())
                 .hoverOverAccountIcon()
                 .clickDropDownMenuAccount()
                 .getFullName();
@@ -32,9 +20,19 @@ public class UserConfigurePOMTest extends BaseTest {
         Assert.assertEquals(actualName, oldName);
     }
 
-    @Test(dependsOnMethods = "getFullName")
-    void renameFullName()  {
-        String expectedName = new HeaderComponentPOM(getDriver())
+    @Test
+    void getFullNameStatusPageTest() {
+        String actualName = new HeaderComponentsPOM(getDriver())
+                .hoverOverAccountIcon()
+                .clickDropDownMenuStatus(oldName)
+                .getFullUserName();
+
+        Assert.assertEquals(actualName, oldName);
+    }
+
+    @Test(dependsOnMethods = "getFullNameAccountPageTest")
+    void renameFullNameTest() {
+        String expectedName = new HeaderComponentsPOM(getDriver())
                 .hoverOverAccountIcon()
                 .clickDropDownMenuAccount()
                 .clearFullName()
@@ -42,16 +40,16 @@ public class UserConfigurePOMTest extends BaseTest {
                 .clickApply()
                 .getFullName();
 
-        String actualName = new HeaderComponentPOM(getDriver())
+        String actualName = new HeaderComponentsPOM(getDriver())
                 .hoverOverAccountIcon()
                 .clickDropDownMenuAccount()
                 .getFullName();
         Assert.assertEquals(actualName, expectedName);
     }
 
-    @Test(dependsOnMethods = "renameFullName")
-    void getStatusFullName()  {
-        String actualName = new HeaderComponentPOM(getDriver())
+    @Test(dependsOnMethods = "renameFullNameTest")
+    void getStatusFullNameTest() {
+        String actualName = new HeaderComponentsPOM(getDriver())
                 .hoverOverAccountIcon()
                 .clickDropDownMenuStatus(newName)
                 .getFullUserName();
@@ -59,9 +57,9 @@ public class UserConfigurePOMTest extends BaseTest {
         Assert.assertEquals(actualName, newName);
     }
 
-    @Test(dependsOnMethods = "getStatusFullName")
-    void renameByDefaultAdminName()  {
-        String expectedName = new HeaderComponentPOM(getDriver())
+    @Test(dependsOnMethods = "getStatusFullNameTest")
+    void renameByDefaultAdminNameTest() {
+        String expectedName = new HeaderComponentsPOM(getDriver())
                 .hoverOverAccountIcon()
                 .clickDropDownMenuAccount()
                 .clearFullName()
@@ -69,11 +67,10 @@ public class UserConfigurePOMTest extends BaseTest {
                 .clickApply()
                 .getFullName();
 
-        String actualName = new HeaderComponentPOM(getDriver())
+        String actualName = new HeaderComponentsPOM(getDriver())
                 .hoverOverAccountIcon()
                 .clickDropDownMenuAccount()
                 .getFullName();
         Assert.assertEquals(actualName, expectedName);
     }
-
 }

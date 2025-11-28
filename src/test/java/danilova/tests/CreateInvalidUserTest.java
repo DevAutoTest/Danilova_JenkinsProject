@@ -1,8 +1,7 @@
 package danilova.tests;
 
 import danilova.models.UsersFactory;
-import danilova.page.HeaderComponentPOM;
-import danilova.page.ManageUsersPage;
+import danilova.page.HeaderComponentsPOM;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import danilova.common.BaseTest;
@@ -12,25 +11,26 @@ import danilova.testUtils.GetRandomUtils;
 
 import java.util.List;
 
-public class CreateUserPOMTest extends BaseTest {
+public class CreateInvalidUserTest extends BaseTest {
 
     @Test
-    public void createValidUser() {
-        new HeaderComponentPOM(getDriver()).clickManageJenkinsHeader()
+    public void createDuplicateValidUserTest() {
+        String expectedError = "User name is already taken";
+        new HeaderComponentsPOM(getDriver())
+                .clickManageJenkinsHeader()
                 .clickUserLink()
                 .clickCreateUserButton()
-                .fillForm(UsersFactory.VALID_USER);
-        ManageUsersPage usersPage = new CreateUserPage(getDriver()).clickCreateUserButton();
+                .fillForm(UsersFactory.VALID_USER1)
+                .clickCreateUserButton();
 
-        List<String> usersName = usersPage.getListUsers().stream()
-                .map(s -> {
-                    String trimmed = s.getText().startsWith("/user/") ? s.getText().substring(6) : s.getText();  // убрали "/user/"
-                    trimmed = trimmed.endsWith("/") ? trimmed.substring(0, trimmed.length() - 1) : trimmed;
-                    return trimmed;
-                })
-                .toList();
-
-        Assert.assertEquals(usersName.get(1), UsersFactory.VALID_USER.getUserName(), "error");
+        List<String> actualErrors = new HeaderComponentsPOM(getDriver())
+                .clickManageJenkinsHeader()
+                .clickUserLink()
+                .clickCreateUserButton()
+                .fillForm(UsersFactory.VALID_USER1)
+                .clickCreateUserButtonNegative()
+                .getAllErrors();
+        Assert.assertEquals(actualErrors.get(0), expectedError);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class CreateUserPOMTest extends BaseTest {
 
         final String testData = "";
 
-        List<String> actualErrors = new HeaderComponentPOM(getDriver())
+        List<String> actualErrors = new HeaderComponentsPOM(getDriver())
                 .clickManageJenkinsHeader()
                 .clickUserLink()
                 .clickCreateUserButton()
@@ -57,7 +57,7 @@ public class CreateUserPOMTest extends BaseTest {
         final String expectedErrorMessage = "User name must only contain alphanumeric characters, underscore and dash";
         final CharSequence testData = AsciiUtils.getRandomInvalidAsciiCharForNameFieldsValidationUtil();
 
-        List<String> actualErrors = new HeaderComponentPOM(getDriver())
+        List<String> actualErrors = new HeaderComponentsPOM(getDriver())
                 .clickManageJenkinsHeader()
                 .clickUserLink()
                 .clickCreateUserButton()
@@ -76,7 +76,7 @@ public class CreateUserPOMTest extends BaseTest {
     public void createEmptyPasswordTest() {
         final String expectedErrorMessage = "Password is required";
 
-        List<String> actualErrors = new HeaderComponentPOM(getDriver())
+        List<String> actualErrors = new HeaderComponentsPOM(getDriver())
                 .clickManageJenkinsHeader()
                 .clickUserLink()
                 .clickCreateUserButton()
@@ -92,7 +92,7 @@ public class CreateUserPOMTest extends BaseTest {
     public void createNotMatchedPasswordTest() {
         final String expectedErrorMessage = "Password didn't match";
 
-        List<String> actualErrors = new HeaderComponentPOM(getDriver())
+        List<String> actualErrors = new HeaderComponentsPOM(getDriver())
                 .clickManageJenkinsHeader()
                 .clickUserLink()
                 .clickCreateUserButton()
@@ -108,7 +108,7 @@ public class CreateUserPOMTest extends BaseTest {
     public void createInvalidEmailTest() {
         final String expectedErrorMessage = "Invalid e-mail address";
 
-        List<String> actualErrors = new HeaderComponentPOM(getDriver())
+        List<String> actualErrors = new HeaderComponentsPOM(getDriver())
                 .clickManageJenkinsHeader()
                 .clickUserLink()
                 .clickCreateUserButton()

@@ -81,7 +81,13 @@ public abstract class BaseTest {
                 getWeb();
                 loginWeb();
             } else {
-                getWeb();
+                if (getDriver() == null) {   // ← FIX
+                    startDriver();
+                    getWeb();
+                    loginWeb();              // важно: браузер новый → надо логиниться
+                } else {
+                    getWeb();                // браузер есть → просто переход
+                }
             }
         } catch (Exception e) {
             closeDriver();

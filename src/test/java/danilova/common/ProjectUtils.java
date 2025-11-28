@@ -13,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public final class ProjectUtils {
@@ -47,6 +49,20 @@ public final class ProjectUtils {
         }
 
         chromeOptions = new ChromeOptions();
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("credentials_enable_service", false);
+        prefs.put("profile.password_manager_enabled", false);
+        prefs.put("profile.password_manager_leak_detection", false);
+
+        //to fix problem with chrome password manager
+        chromeOptions.setExperimentalOption("prefs", prefs);
+
+        chromeOptions.addArguments("--disable-save-password-bubble");
+        chromeOptions.addArguments("--disable-features=PasswordLeakDetection");
+        chromeOptions.addArguments("--disable-features=PasswordManagerEnabled");
+        chromeOptions.addArguments("--disable-features=NotifierController");
+        chromeOptions.addArguments("--disable-features=AutofillServerCommunication");
+
         String options = getValue(PREFIX_BROWSER_OPTIONS + "chrome");
         if (options != null) {
             for (String argument : options.split(";")) {
@@ -59,6 +75,7 @@ public final class ProjectUtils {
         return propName.replace('.', '_').toUpperCase();
     }
 
+    //сначала получаем опции из property файл, если их там нет, то из системных переменных
     private static String getValue(String name) {
         return properties.getProperty(name, System.getenv(convertPropToEnvName(name)));
     }
@@ -105,7 +122,7 @@ public final class ProjectUtils {
             throw new RuntimeException(e);
         }
 
-       // attachment в Allure имя вложения динамически подставляется class/method
+       // Allure attachment
         Allure.addAttachment(
                 "Screenshot: " + className + "." + methodName,
                 "image/png",

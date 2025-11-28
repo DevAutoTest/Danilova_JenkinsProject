@@ -13,10 +13,11 @@ import java.util.List;
 
 public class HomePage extends BasePage {
 
-    HeaderComponentPOM header;
+    HeaderComponentsPOM header;
+
     public HomePage(WebDriver driver) {
         super(driver);
-        header = new HeaderComponentPOM(getDriver());
+        header = new HeaderComponentsPOM(getDriver());
     }
 
     public NewItemPage clickCreateJob() {
